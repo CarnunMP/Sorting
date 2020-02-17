@@ -7,8 +7,6 @@ def merge( arrA, arrB ):
     right_smallest_index = 0
 
     for i in range(0, elements):
-        print(i, left_smallest_index, right_smallest_index)
-
         if left_smallest_index >= len(arrA):
             merged_arr[i] = arrB[right_smallest_index]
             right_smallest_index += 1
@@ -47,13 +45,54 @@ def merge_sort( arr ):
 def merge_in_place(arr, start, mid, end):
     # TO-DO
 
+    # Okay. So I think the idea is: start, mid, and end are indices which describe two arrays.
+    # Might as well start by making copies of them!
+
+    left_arr = arr[start: mid + 1]
+    right_arr = arr[mid + 1: end + 1]
+
+    # Then merge as before:
+    elements = len( left_arr) + len( right_arr )
+    merged_arr = [0] * elements
+
+    left_smallest_index = 0
+    right_smallest_index = 0
+
+    for i in range(0, elements):
+        if left_smallest_index >= len(left_arr):
+            merged_arr[i] = right_arr[right_smallest_index]
+            right_smallest_index += 1
+        elif right_smallest_index >= len(right_arr):
+            merged_arr[i] = left_arr[left_smallest_index]
+            left_smallest_index += 1
+        elif left_arr[left_smallest_index] <= right_arr[right_smallest_index]:
+            merged_arr[i] = left_arr[left_smallest_index]
+            left_smallest_index += 1
+        else:
+            merged_arr[i] = right_arr[right_smallest_index]
+            right_smallest_index += 1
+
+    # And finally, loop over merged_arr, copying elements back to arr:
+    for i, num in enumerate(merged_arr):
+        arr[i + start] = num
+
     return arr
 
 def merge_sort_in_place(arr, l, r): 
     # TO-DO
 
-    return arr
+    if r - l >= 1:
+        # split
+        middle_index = l + ((r - l) // 2)
 
+        # sort the parts
+        arr = merge_sort_in_place(arr, l, middle_index)
+        arr = merge_sort_in_place(arr, middle_index + 1, r)
+
+        # and merge
+        return merge_in_place(arr, l, middle_index, r)
+    else:
+        return arr
 
 # STRETCH: implement the Timsort function below
 # hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
