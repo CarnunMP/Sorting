@@ -44,5 +44,39 @@ def bubble_sort( arr ):
 
 # STRETCH: implement the Count Sort function below
 def count_sort( arr, maximum=-1 ):
+    try:
+        # need to find the maximum element
+        maximum = max(arr)
 
-    return arr
+        # generate an array, counts, with length of max + 1
+        counts = [0] * (maximum + 1)
+
+        # loop over arr, counting instances of each element at the corresponding index of counts
+        for num in arr:
+            if num < 0:
+                return "Error, negative numbers not allowed in Count Sort"
+            
+            counts[num] += 1
+
+        # loop over counts, summing pairs of elements
+        for i in range(len(counts) - 1):
+            counts[i + 1] += counts[i]
+        
+        # shift everything in counts one spot to the right, and put 0 in 0
+        counts_copy = counts
+        for i in reversed(range(len(counts) - 1)):
+            counts[i + 1] = counts[i]
+        counts[0] = 0
+        
+        result = [0] * len(arr)
+        # loop back through arr, placing each element at the index indicated by counts, then increment it
+        for num in arr:
+            result[counts[num]] = num
+            counts[num] += 1
+
+        return result
+    except ValueError:
+        return []
+
+print(count_sort([2,3,85,34,2,35,1,0]))
+print(count_sort([]))
