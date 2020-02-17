@@ -47,6 +47,7 @@ def merge_in_place(arr, start, mid, end):
 
     # Okay. So I think the idea is: start, mid, and end are indices which describe two arrays.
     # Might as well start by making copies of them!
+    # (Question: as these copies are only temporary, do they affect space complexity?)
 
     left_arr = arr[start: mid + 1]
     right_arr = arr[mid + 1: end + 1]
