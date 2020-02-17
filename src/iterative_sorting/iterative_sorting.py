@@ -77,6 +77,3 @@ def count_sort( arr, maximum=-1 ):
         return result
     except ValueError:
         return []
-
-print(count_sort([2,3,85,34,2,35,1,0]))
-print(count_sort([]))
