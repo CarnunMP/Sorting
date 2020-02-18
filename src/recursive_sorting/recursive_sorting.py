@@ -97,6 +97,40 @@ def merge_sort_in_place(arr, l, r):
 
 # STRETCH: implement the Timsort function below
 # hint: check out https://github.com/python/cpython/blob/master/Objects/listsort.txt
+
+# Some notes:
+# - If the array has fewer than 64 elements in it, use Insertion Sort
+# - If the array is larger than 64 elements, Timsort will make a 'first pass' looking for
+#   sub-arrays which are strictly increasing or decreasing. Decreasing runs are reversed.
+# - Minrun, the minimum length of a run, is chosen such that the length of the original
+#   array, divided by minrun, is equal to or slightly less than a power of 2. Also: if
+#   the length of a run is less than minrun, the difference is made up by inserting (with
+#   Insertion Sort) items ahead of the run into the run. This creates a number of sorted
+#   runs in row.
+# - The runs are then merged with Merge Sort.
+# - But two competing needs are 'balanced' when merging: delaying merging to take advantage
+#   of patterns in the runs, and keeping the merge call stack low. This is done by keeping
+#   track of three numbers, A, B, and C, representing the three most recent items on the
+#   call stack, and forcing them to adhere to the following two 'laws':
+#       1) A > B + C
+#       2) B < C
+#   Specifically, these numbers represent their _lengths_! (?)
+# - When merging two adjacent runs in place, Timsort places the smaller of the two in
+#   temporary memory.
+# - If Timsort notices that one run has been 'winning' many times in a row during a merge,
+#   it assumes that all of its items are smaller than all of the items in the other run, so
+#   it 'gallops', performing (instead of a merge) a binary search for the appropriate
+#   position of B[0] (and so the rest of B, too) in A[0]. But 'galloping' isn't worth it if
+#   the appropriate location of B[0] is too close to the beginning of A[0] (or vice versa),
+#   so 'gallop' mode exits if it's not paying off.
+# - "Additionally, Timsort takes note and makes it harder to enter gallop mode later by 
+#   increasing the number of consecutive A-only or B-only wins required to enter. If gallop 
+#   mode is paying off, Timsort makes it easier to reenter."
+
+# All of this is to say, damn... there are a lot of moving parts! :D
+# I'm not sure where to start...
+
+
 def timsort( arr ):
 
     return arr
