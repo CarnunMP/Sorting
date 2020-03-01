@@ -1,3 +1,5 @@
+### Please find my solutions here: https://github.com/CarnunMP/CS-morning-challenges/blob/master/week2/iterative-sorting.py
+
 # STRETCH: implement Linear Search				
 def linear_search(arr, target):
   
